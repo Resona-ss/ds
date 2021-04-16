@@ -6,7 +6,7 @@
                 <img src="../imgs/logo.png" alt="">
             </div>
             <!-- 表单登录区域 -->
-            <el-form :model="loginForm" :rules="Rules" label-width="0px" class="login_form">
+            <el-form ref="loginFromRef" :model="loginForm" :rules="Rules" label-width="0px" class="login_form">
                 <!-- 昵称输入 -->
                 <el-form-item prop="username">
                     <el-input v-model="loginForm.username" prefix-icon="iconfont icon-user" placeholder="输入用户名"></el-input>
@@ -16,8 +16,8 @@
                     <el-input v-model="loginForm.password" type="password" prefix-icon="iconfont icon-lock_fill" placeholder="输入密码"></el-input>
                 </el-form-item>
                 <el-form-item class="btns">
-                    <el-button type="primary">登录</el-button>
-                    <el-button type="info">重置</el-button>
+                    <el-button type="primary" @click="login">登录</el-button>
+                    <el-button type="info" @click="resetLoginFrom">重置</el-button>
                 </el-form-item>
             </el-form>
             
@@ -30,8 +30,8 @@ export default {
         return{
             // 登录表单的数据绑定对象
             loginForm:{
-                username:'11',
-                password:'22'
+                username:'admin',
+                password:'123456'
             },
             Rules: {
                 username: [
@@ -45,8 +45,30 @@ export default {
         }
     }
     
- }
-}
+    },
+    methods: {
+        // 重置表单按钮
+        resetLoginFrom(){
+            //console.log(this)
+            this.$refs.loginFromRef.resetFields()
+        },
+        login(){
+            
+            this.$refs.loginFromRef.validate( async valid=>{
+                console.log(valid)
+                if(!valid) return;
+                //解构赋值
+                const {data:res}= await this.$http.post("login",this.loginForm);
+                if(res.meta.status!=200)
+                { return this.$message.error("登录失败")}
+                else{this.$message.success("登录成功")}
+                // console.log(res)
+                window.sessionStorage.setItem("token",res.data.token);
+                this.$router.push("/home");
+            })
+        }
+    }
+};
 </script>
 <style lang="less" scoped>
 .login_container{
