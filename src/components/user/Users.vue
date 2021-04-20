@@ -33,20 +33,20 @@
             </el-switch>
           </template>
       </el-table-column>
-      <el-table-column label="操作" :enterable="false">
-          <template>
-              <div id="buttoncz">
+      <el-table-column label="操作" :enterable="false" >
+          <template slot-scope="scope">
+            
                   <!-- 修改按钮 -->
-                <el-button type="primary" icon="el-icon-edit"
-                  @click="showEditDialog()"
+                <el-button type="primary" icon="el-icon-edit" size="mini"
+                  @click="showEditDialog(scope.row.id)"
                 ></el-button>
                   <!-- 删除按钮 -->
-                <el-button type="danger" icon="el-icon-delete"></el-button>
+                <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
                    <!-- 分配角色 -->
               <el-tooltip effect="dark" content="分配角色" placement="top">
-                 <el-button type="warning" icon="el-icon-setting"></el-button>
+                 <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
               </el-tooltip> 
-              </div>
+              
           </template>
       </el-table-column>   
   </el-table>
@@ -163,7 +163,8 @@ export default {
             },
             // 控制修改用户对话框显示与隐藏
             editDialogVisible:false,
-
+            // 用户查询到的信息
+            editForm:{},
 
 
 
@@ -229,7 +230,13 @@ export default {
                 }
             })
         },
-        showEditDialog(){
+        async showEditDialog(id){
+            //console.log(id)
+            const {data:res}= await this.$http.get('users/' + id)
+            if(res.meta.status !==200){
+                return this.$message.error('查询用户数据失败')
+            }
+            this.editForm=res.data
             this.editDialogVisible=true
         },
 
@@ -237,8 +244,5 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-#buttoncz{
-    display: flex;
-    justify-content: space-between;
-}
+
 </style>
