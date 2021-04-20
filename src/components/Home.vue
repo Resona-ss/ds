@@ -74,6 +74,7 @@ export default {
 
     },
     methods: {
+        //退出登录
         logout(){
             window.sessionStorage.clear();
             this.$router.push("/login")
@@ -86,7 +87,7 @@ export default {
             }else{
                 this.menulist=res.data
             }
-            console.log(res)
+            //console.log(res)
         },
         //点击菜单缩放
         togglecollapse(){
