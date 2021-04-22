@@ -55,7 +55,7 @@ export default {
         login(){
             
             this.$refs.loginFromRef.validate( async valid=>{
-                console.log(valid)
+                //console.log(valid)
                 if(!valid) return;
                 //解构赋值
                 const {data:res}= await this.$http.post("login",this.loginForm);
