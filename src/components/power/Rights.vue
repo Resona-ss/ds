@@ -15,8 +15,8 @@
             <el-table-column lable="权限等级" prop='level'>
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.level==='0'">一级</el-tag>
-                    <el-tag type="success" v-else-if="scpoe.row.level==='1'">二级</el-tag>
-                    <el-tag type="warning" v-else>三级一</el-tag>
+                    <el-tag type="success" v-else-if="scope.row.level==='1'">二级</el-tag>
+                    <el-tag type="warning" v-else>三级</el-tag>
                 </template>
             </el-table-column>
         </el-table>
